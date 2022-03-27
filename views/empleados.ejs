@@ -1,0 +1,78 @@
+<%- include layouts/header.ejs %>
+  <div class="container py-4">
+    <br />
+    <a name="" id="" class="btn btn-primary shadow" href="empleados/crear" role="button">Crear Nuevo Empleado</a>
+    <br />
+    <br />
+    <div class="py-1 px-1 border rounded m-4">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Horas</th>
+            <th scope="col">Salario</th>
+            <th scope="col">Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var empleado=0; empleado < Empleados.length; empleado++){ %>
+            <tr>
+              <% var horas=Empleados[empleado].horasLaboradas; var bono=0; var categoria=Empleados[empleado].categoria;
+                var a=25000; var b=28000; var c=30000; if (categoria=="A" ) { categoria=a; }if(categoria=="B" ) {
+                categoria=b; }if(categoria=="C" ) { categoria=c; } if(horas> 90) {
+                horas += (horas - 90) * 0.10; if(horas > 100) { bono = 100000; } } var
+                salario = ( horas * categoria) + bono; function numberWithCommas(x) {
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); } var
+                salario = numberWithCommas(salario); %>
+                <td>
+                  <%= Empleados[empleado].id %>
+                </td>
+                <td>
+                  <%= Empleados[empleado].nombre %>
+                </td>
+                <td>
+                  <%= Empleados[empleado].apellido%>
+                </td>
+                <td>
+                  <%= Empleados[empleado].rol %>
+                </td>
+                <td>
+                  <%= Empleados[empleado].categoria %>
+                </td>
+                <td>
+                  <img src="/images/<%= Empleados[empleado].photo %>" class="img-fluid" width="80" height="80" />
+                </td>
+                <td>
+                  <%= Empleados[empleado].horasLaboradas %>
+                </td>
+                <td>
+                  <%= salario %>
+                </td>
+                <td>
+                  <div class="btn-group-vertical" role="group">
+                    <form class="form-inline" method="get" action="empleados/editar/<%= Empleados[empleado].id %>">
+                      <button class="btn btn-warning" type="submit">Editar</button>
+                    </form>
+                  </div>
+                  |
+                  <div class="btn-group-vertical" role="group">
+                    <form class="form-inline" method="post" action="empleados/eliminar/<%= Empleados[empleado].id %>">
+                      <button class="btn btn-danger" type="submit">Eliminar</button>
+                    </form>
+                  </div>
+                </td>
+            </tr>
+            <% }%>
+        </tbody>
+      </table>
+    </div>
+    <br />
+    <a name="" id="" class="btn btn-success shadow" href="empleados/liquidacion" role="button">Liquidar</a>
+    <br />
+  </div>
+  <%- include layouts/footer.ejs %>

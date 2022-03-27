@@ -1,0 +1,54 @@
+<%- include layouts/header.ejs %>
+<div class="container py-4">
+  <div class="row">
+    <% for(var empleado=0; empleado < Empleados.length; empleado++){ %> 
+    <%  var horas=Empleados[empleado].horasLaboradas; 
+        var bono=0; 
+        var categoria=Empleados[empleado].categoria; 
+        var a=25000; 
+        var b=28000; 
+        var c=30000; 
+        if (categoria=="A" ) { 
+            categoria=a; 
+        }if(categoria=="B" ) {
+            categoria=b; 
+        }if(categoria=="C" ) { 
+            categoria=c; 
+        } 
+        if(horas> 90) { 
+            horas += (horas - 90) * 0.10; 
+            if(horas > 100) { 
+                bono = 100000; 
+            } 
+        } 
+        var salario = (horas * categoria) + bono; 
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+        var salario = numberWithCommas(salario);
+        console.log(salario)%>
+    <div class="col-sm-6" style="margin-bottom: 25px">
+      <div class="card bg-light">
+        <div class="card-body">
+          <h5 class="card-title">
+            <%= Empleados[empleado].nombre %> <%= Empleados[empleado].apellido
+            %>
+          </h5>
+          <p class="card-text">
+            <strong>Rol: </strong>
+            <%= Empleados[empleado].rol %> <br />
+            <strong>Categoria: </strong>
+            <%= Empleados[empleado].categoria %> <br />
+            <strong>Horas Laboradas: </strong>
+            <%= Empleados[empleado].horasLaboradas %> <br />
+            <strong>Total: </strong>
+            <%= salario %>
+          </p>
+          <a href="#" class="btn btn-primary">Descargar</a>
+        </div>
+      </div>
+    </div>
+    <% }%>
+  </div>
+</div>
+<%- include layouts/footer.ejs %>
